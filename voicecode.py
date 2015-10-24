@@ -1,4 +1,6 @@
 __author__ = 'jdemp'
+import os
+import sys
 
 class CodeDestination():
 
@@ -12,3 +14,11 @@ class CodeDestination():
         pass
 
 
+def type(arg):
+    #print(keystroke_cmd + arg + "'")
+    str = """osascript -e 'tell application "System Events" to keystroke "{0}"'""".format(arg)
+    os.system(str)
+
+if __name__ == '__main__':
+    str = 'Hello World'
+    type(str)
