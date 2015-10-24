@@ -1,0 +1,4 @@
+I can now simulate keyboard events with the program
+
+Next week I will work on taking in strings from Dragon Dicate and parsing them for keywords.
+Before that I will define a few keywords based on the CS1 homeworks.
