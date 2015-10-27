@@ -1,24 +1,36 @@
 __author__ = 'jdemp'
 import os
 import sys
+import socketserver
+from python_parser import PythonParser
 
-class CodeDestination():
-
-    def __init__(self):
-        pass
-
-    def __str__(self):
-        pass
-
-    def write_code_snippet(self, snippet):
-        pass
-
-
-def type(arg):
+def type_snippet(arg):
     #print(keystroke_cmd + arg + "'")
     str = """osascript -e 'tell application "System Events" to keystroke "{0}"'""".format(arg)
     os.system(str)
 
-if __name__ == '__main__':
-    str = 'Hello World'
-    type(str)
+
+
+class PythonHandler(socketserver.BaseRequestHandler):
+
+    def handle(self):
+        # self.request is the TCP socket connected to the client
+        data = self.request.recv(1024).strip()
+        command = data.decode()
+        print(command)
+        snippet = parser.parse(command)
+        type_snippet(snippet)
+
+if __name__ == "__main__":
+    HOST, PORT = "localhost", 10000
+
+    lang = input("Enter the Language you will be programming in: ")
+
+    if lang.lower() == 'python':
+        print("Starting PyVoice")
+        server = socketserver.TCPServer((HOST, PORT), PythonHandler)
+        parser = PythonParser()
+    else:
+        server = socketserver.TCPServer((HOST, PORT), PythonHandler)
+
+    server.serve_forever()
