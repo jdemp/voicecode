@@ -4,11 +4,10 @@ import sys
 import socketserver
 from python_parser import PythonParser
 
-def type_snippet(arg):
+def send_keystrokes(arg):
     #print(keystroke_cmd + arg + "'")
     str = """osascript -e 'tell application "System Events" to keystroke "{0}"'""".format(arg)
     os.system(str)
-
 
 
 class PythonHandler(socketserver.BaseRequestHandler):
@@ -19,7 +18,8 @@ class PythonHandler(socketserver.BaseRequestHandler):
         command = data.decode()
         print(command)
         snippet = parser.parse(command)
-        type_snippet(snippet)
+        for line in snippet:
+            send_keystrokes(line)
 
 if __name__ == "__main__":
     HOST, PORT = "localhost", 10000

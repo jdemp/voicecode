@@ -1,0 +1,10 @@
+On monday I was able to get dragon dictate sending the text to the program. This took much longer than expected due to
+a issue with Dragon's applescript editor, using smart quotes thus preventing the applescript from compiling.
+
+The program can now format the first line of basic classes and functions, following the pep8 style guide.
+
+My current issue is determining the logic needed to handle certain structures such as for loops, methods that take parameters,
+function calls, and math operators. I hope to figure this out this weekend, I will probably end up making parsers that handle
+specific things and allowing the create functions to pass parts of the dictation to these parsers.
+
+Next week I hope to have the program able to handle for loops, while loops, function calls and basic math.

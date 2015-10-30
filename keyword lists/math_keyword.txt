@@ -1,0 +1,9 @@
+equals
+greater than
+less than
+qreater or equal
+less or equal
+divide
+add
+multiply
+subtract
