@@ -1,0 +1,8 @@
+Due to wrist acting up I was not able to program as much as I was planning on this week, but it is starting to feel better.
+Should be able to make up for lost time on weekend.
+
+I finally figured out how to handle keywords in way that will enable me to support different languages later on without
+needing to rewrite all of the keywords. I started developing a set of keywords that will be universal for language.
+
+Next week I will add more keywords as well as more create functions to support those keywords. After that I will add
+support for nested keywords and module specific keywords.
