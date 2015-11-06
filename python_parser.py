@@ -1,7 +1,8 @@
 __author__ = 'jdemp'
 import pickle
-import translations
+from keywords import Keywords
 from math_parser import MathParser
+
 
 
 def create_class(command):
@@ -36,38 +37,44 @@ def create_for(command):
 class PythonParser():
 
     def __init__(self):
-        self.keywords = {'class': create_class,
-                         'define': create_method,
-                         'for': create_for,
-                         'call': self.parse_call}
+        self.keywords = Keywords("python")
         self.math_parser = MathParser
-        # make an sqlite db
 
     def parse(self, dictation):
-        words = dictation.split(maxsplit=1)
-        print(str(words))
-        snippet = self.keywords[words[0].lower()](words[1])
-        return snippet
+        words = dictation.split()
+        # print(str(words))
+        if self.keywords.is_keyword(words[0]):
+            parser = "create_" + words[0]
+            return getattr(self, parser)(words[1:])
+        else:
+            return [False]
 
-    def find_keywords(self, command):
-        pass
+    def create_class(self, words):
+        snippets = ["","",""]
+        snippets[0] = 'class '
+        for w in words:
+            snippets[0] += w.capitalize()
+        snippets[0] += '():'
+        snippets[1] = 'nl'
+        return snippets
 
-    def translate(self, command):
-        pass
+    def create_function(self, words):
+        snippets = ["","",""]
+        snippets[0] = 'def '
+        for w in words:
+            snippets[0] += w.lower() + '_'
+        snippets[0] = snippets[0][:-1] + '():'
+        snippets[1] = 'nl'
+        return snippets
 
-    def add_keyword(self, key, value):
-        self.keywords[key] = value
 
-    def edit_keywords(self):
-        pass
+    def create_loop(self, words):
+        snippets = ["","",""]
+        print(words)
+        snippets[0] = 'for ' + words[0] + ' in range( ' + words[2] + ', '
+        stop = int(words[4]) + 1
+        snippets[0] += str(stop) + '):'
+        snippets[1] = 'nl'
+        return snippets
 
-    def save_keywords(self):
-        file = 'python_keywords.p'
-        pickle.dump(self.keywords,open(file, "wb"))
 
-    def edit_translations(self):
-        pass
-
-    def save_translations(self):
-        file = 'python_translations.p'
-        pickle.dump(self.keywords,open(file, "wb"))

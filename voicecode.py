@@ -9,6 +9,10 @@ def send_keystrokes(arg):
     str = """osascript -e 'tell application "System Events" to keystroke "{0}"'""".format(arg)
     os.system(str)
 
+def send_nl():
+    #print(keystroke_cmd + arg + "'")
+    str = """osascript -e 'tell application "System Events" to key code 36'"""
+    os.system(str)
 
 class PythonHandler(socketserver.BaseRequestHandler):
 
@@ -17,9 +21,15 @@ class PythonHandler(socketserver.BaseRequestHandler):
         data = self.request.recv(1024).strip()
         command = data.decode()
         print(command)
-        snippet = parser.parse(command)
-        for line in snippet:
-            send_keystrokes(line)
+        snippets = parser.parse(command)
+        if snippets[0] is False:
+            pass
+        else:
+            for s in snippets:
+                if s == 'nl':
+                    send_nl()
+                else:
+                    send_keystrokes(s)
 
 if __name__ == "__main__":
     HOST, PORT = "localhost", 10000
