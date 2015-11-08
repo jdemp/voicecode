@@ -3,7 +3,7 @@ import sys
 import socket
 
 def send_msg(message):
-    HOST, PORT = "localhost", 10000
+    HOST, PORT = "localhost", 12000
 
     # Create a socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

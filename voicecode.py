@@ -22,17 +22,14 @@ class PythonHandler(socketserver.BaseRequestHandler):
         command = data.decode()
         print(command)
         snippets = parser.parse(command)
-        if snippets[0] is False:
-            pass
-        else:
-            for s in snippets:
-                if s == 'nl':
-                    send_nl()
-                else:
-                    send_keystrokes(s)
+        for s in snippets:
+            if s == 'nl':
+                send_nl()
+            else:
+                send_keystrokes(s)
 
 if __name__ == "__main__":
-    HOST, PORT = "localhost", 10000
+    HOST, PORT = "localhost", 12000
 
     lang = input("Enter the Language you will be programming in: ")
 
@@ -41,6 +38,5 @@ if __name__ == "__main__":
         server = socketserver.TCPServer((HOST, PORT), PythonHandler)
         parser = PythonParser()
     else:
-        server = socketserver.TCPServer((HOST, PORT), PythonHandler)
-
+       pass
     server.serve_forever()
