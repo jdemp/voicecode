@@ -8,7 +8,8 @@ class Keywords():
     def __init__(self, language):
         if language == 'python':
             self.setup_python()
-        self.keyword_set = {'class', 'function', 'loop', 'while', 'if', 'elif', 'else', 'variable', 'equals', 'define'}
+        self.keyword_set = {'class', 'function', 'loop', 'while', 'if', 'else', 'variable', 'equals', 'define'
+                            , 'print', 'return', 'math'}
 
     def setup_python(self):
         pass

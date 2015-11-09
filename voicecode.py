@@ -31,12 +31,13 @@ class PythonHandler(socketserver.BaseRequestHandler):
 if __name__ == "__main__":
     HOST, PORT = "localhost", 12000
 
-    lang = input("Enter the Language you will be programming in: ")
-
-    if lang.lower() == 'python':
-        print("Starting PyVoice")
-        server = socketserver.TCPServer((HOST, PORT), PythonHandler)
-        parser = PythonParser()
-    else:
-       pass
+    while 1:
+        lang = input("Enter the Language you will be programming in: ")
+        if lang.lower() == 'python':
+            print("Starting PyVoice")
+            server = socketserver.TCPServer((HOST, PORT), PythonHandler)
+            parser = PythonParser()
+            break
+        else:
+            print("Language not implemented yet")
     server.serve_forever()

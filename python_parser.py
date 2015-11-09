@@ -1,7 +1,7 @@
 __author__ = 'jdemp'
 import pickle
 from keywords import Keywords
-# from math_parser import MathParser
+from math_parser import MathParser
 
 
 def format_variable(words):
@@ -22,7 +22,7 @@ class PythonParser():
 
     def __init__(self):
         self.keywords = Keywords("python")
-        # self.math_parser = MathParser
+        self.math_parser = MathParser()
 
     def parse(self, dictation):
         words = dictation.split()
@@ -84,25 +84,36 @@ class PythonParser():
         snippets.append('nl')
         return snippets
 
-
     def create_elif(self, words):
         pass
 
     def create_else(self, words):
-        pass
+        snippets = ["else:", "nl"]
+        return snippets
+
+    def create_return(self, words):
+        snippets = [""]
+        if words[0] == 'variable':
+            snippets[0] = format_variable(words[1:])
+        else:
+            snippets[0] = convert_to_string(words)
+        snippets.append('nl')
+        return snippets
 
     def create_print(self, words):
-        snippets = []
+        snippets = [""]
         length = len(words)
+        print(str(words))
         if words[0] == 'variable' and length > 1:
-            snippets[0] = 'print(str(' + convert_to_string(words[1:]) + '))'
+            snippets[0] = 'print(str(' + format_variable(words[1:]) + '))'
         else:
-            snippets[0] = 'print('
+            pass
+            # snippets[0] = "print('" + convert_to_string(words) + "')"
         return snippets
 
     def create_variable(self, words):
         snippets = [""]
-        if  len(words) < 2:
+        if len(words) < 2:
             snippets[0] = words[0] + ' = '
         elif words[1] == 'array':
             snippets[0] = words[0] + ' = []'
@@ -116,7 +127,13 @@ class PythonParser():
             snippets[0] = words[0] + ' = ' + convert_to_string(words[1:])
         return snippets
 
+    def create_math(self, words):
+        replaced = self.math_parser.parser(words)
+        snippet = [convert_to_string(replaced), 'nl']
+        return snippet
+
     def create_call(self, words):
+
         return [""]
 
     def process_conditional(self, words):

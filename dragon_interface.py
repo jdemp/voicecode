@@ -19,5 +19,5 @@ def send_msg(message):
 dictation = sys.argv[1:]
 msg = ''
 for word in dictation:
-    msg += word + ' '
+    msg += word.lower() + ' '
 send_msg(msg[:-1])
