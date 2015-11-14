@@ -1,0 +1,3 @@
+This week I began looking at using one of the open source python voice recognition libraries, to give me more control
+over what I cna use for keywords. Next week I will try to add one of them to my program, as well as adding additional
+keywords to program.

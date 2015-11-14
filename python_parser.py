@@ -56,10 +56,12 @@ class PythonParser():
 
     def create_loop(self, words):
         snippets = [""]
+        # X from start to end
         if words[1] == 'from':
             snippets[0] = 'for ' + words[0] + ' in range( ' + words[2] + ', '
             stop = int(words[4]) + 1
             snippets[0] += str(stop) + '):'
+        # X in List
         elif words[1] == 'in':
             snippets[0] = 'for ' + words[0] + ' in ' + format_variable(words[2:]) + ':'
         else:
