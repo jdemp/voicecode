@@ -2,13 +2,14 @@ __author__ = 'jdemp'
 
 
 class Keywords():
-    conditional_keyword_dictionary = {'less than or equal to': '<=', 'greater than or equal to': '>=',
-                                      'less than': '<', 'greater than': '>', 'equal to': '=='}
+    conditional_keyword_list = ['less than or equal to', 'greater than or equal to',
+                                      'less than', 'greater than', 'equal to', 'and', 'or']
+    conditional_replacement_list = ['<=', '>=', '<', '>', '==', 'and', 'or']
 
     def __init__(self, language):
         if language == 'python':
             self.setup_python()
-        self.keyword_set = {'class', 'function', 'loop', 'while', 'if', 'else', 'variable', 'equals', 'define'
+        self.keyword_set = {'class', 'function', 'for', 'while', 'if', 'else', 'variable', 'equals', 'define'
                             , 'print', 'return', 'math'}
 
     def setup_python(self):

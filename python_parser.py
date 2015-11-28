@@ -1,20 +1,12 @@
-__author__ = 'jdemp'
-import pickle
 from keywords import Keywords
 from math_parser import MathParser
+import helper
 
 
 def format_variable(words):
     formated = ""
     for w in words:
         formated += w + '_'
-    return formated[:-1]
-
-
-def convert_to_string(words):
-    formated = ""
-    for w in words:
-        formated += w + ' '
     return formated[:-1]
 
 
@@ -54,7 +46,7 @@ class PythonParser():
     def create_define(self, words):
         return self.create_function(words)
 
-    def create_loop(self, words):
+    def create_for(self, words):
         snippets = [""]
         # X from start to end
         if words[1] == 'from':
@@ -81,13 +73,17 @@ class PythonParser():
 
     def create_if(self, words):
         snippets = ["if "]
-        processed = self.process_conditional(convert_to_string(words))
+        processed = self.process_conditional(helper.convert_to_string(words))
         snippets[0] += processed + ':'
         snippets.append('nl')
         return snippets
 
     def create_elif(self, words):
-        pass
+        snippets = ["elif "]
+        processed = self.process_conditional(helper.convert_to_string(words))
+        snippets[0] += processed + ':'
+        snippets.append('nl')
+        return snippets
 
     def create_else(self, words):
         snippets = ["else:", "nl"]
@@ -98,7 +94,7 @@ class PythonParser():
         if words[0] == 'variable':
             snippets[0] = format_variable(words[1:])
         else:
-            snippets[0] = convert_to_string(words)
+            snippets[0] = helper.convert_to_string(words)
         snippets.append('nl')
         return snippets
 
@@ -108,6 +104,7 @@ class PythonParser():
         print(str(words))
         if words[0] == 'variable' and length > 1:
             snippets[0] = 'print(str(' + format_variable(words[1:]) + '))'
+            snippets.append('nl')
         else:
             pass
             # snippets[0] = "print('" + convert_to_string(words) + "')"
@@ -126,24 +123,25 @@ class PythonParser():
         elif words[1] == 'integer':
             snippets[0] = words[0] + ' = ' + words[2]
         else:
-            snippets[0] = words[0] + ' = ' + convert_to_string(words[1:])
+            snippets[0] = words[0] + ' = ' + helper.convert_to_string(words[1:])
         return snippets
 
     def create_math(self, words):
         replaced = self.math_parser.parser(words)
-        snippet = [convert_to_string(replaced), 'nl']
+        snippet = [helper.convert_to_string(replaced), 'nl']
         return snippet
 
     def create_call(self, words):
+        snippet = [""]
 
-        return [""]
+        return snippet
 
     def process_conditional(self, words):
-        snippet = words
-        for key in Keywords.conditional_keyword_dictionary.keys():
-            if key in words:
-                snippet = snippet.replace(key, Keywords.conditional_keyword_dictionary[key])
-        return snippet
+        replaced = words
+        for i in range(0,len(Keywords.conditional_keyword_list)):
+            if Keywords.conditional_keyword_list[i] in replaced:
+                replaced = replaced.replace(Keywords.conditional_keyword_list[i], Keywords.conditional_replacement_list[i])
+        return replaced
 
 
 
