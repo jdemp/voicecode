@@ -1,0 +1,4 @@
+Added support for making method calls, enabled certain parsers to utilize this code to make for more useful parsers.
+Figure out how to get certain characters to print, requires sending key codes to the applescripts
+Fixed the issues I had during the demo, brought some of the keywords into dragon directly to help it with the recognition
+
