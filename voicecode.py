@@ -1,4 +1,5 @@
 import os
+import sys
 import socketserver
 from python_parser import PythonParser
 
@@ -9,16 +10,12 @@ def send_test(arg):
         print(str(each))
 
 
-def send_nl():
-    #print(keystroke_cmd + arg + "'")
-    str = """osascript -e 'tell application "System Events" to key code 36'"""
-    os.system(str)
-
-
 def send_keystrokes(snippets):
     for s in snippets:
         if s == 'nl':
             keystrokes = """osascript -e 'tell application "System Events" to key code 36'"""
+        elif s == 'quote':
+            keystrokes = """osascript -e 'tell application "System Events" to key code 39'"""
         else:
             keystrokes = """osascript -e 'tell application "System Events" to keystroke "{0}"'""".format(s)
         os.system(keystrokes)
@@ -36,14 +33,11 @@ class PythonHandler(socketserver.BaseRequestHandler):
         send_keystrokes(snippets)
 
 if __name__ == "__main__":
-    HOST, PORT = "localhost", 12002
-    while 1:
-        lang = input("Enter the Language you will be programming in: ")
-        if lang.lower() == 'python':
-            print("Starting PyVoice")
-            server = socketserver.TCPServer((HOST, PORT), PythonHandler)
-            parser = PythonParser()
-            break
-        else:
-            print("Language not implemented yet")
+    HOST, PORT = "localhost", 12003
+    if sys.argv[1] == 'python':
+        print("Starting PyVoice")
+        server = socketserver.TCPServer((HOST, PORT), PythonHandler)
+        parser = PythonParser()
+    else:
+        print("Language not implemented yet")
     server.serve_forever()

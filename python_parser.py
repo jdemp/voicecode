@@ -75,13 +75,17 @@ class PythonParser():
     def create_for(self, words):
         snippets = [""]
         # X from start to end
-        if words[1] == 'from':
-            snippets[0] = 'for ' + words[0] + ' in range( ' + words[2] + ', '
-            stop = int(words[4]) + 1
-            snippets[0] += str(stop) + '):'
+        index_from = helper.find_next_index({'from'}, words)
+        index_in = helper.find_next_index({'in'}, words)
+        if index_from > 0:
+            snippets[0] = 'for ' + format_variable(words[0:index_from]) + ' in range( '
+            index_to = helper.find_next_index({'to'}, words)
+            start = words[index_to-1]
+            stop = words[index_to+1]
+            snippets[0] +=  start + ', ' + stop + '):'
         # X in List
-        elif words[1] == 'in':
-            snippets[0] = 'for ' + words[0] + ' in ' + format_variable(words[2:]) + ':'
+        elif index_in > 0:
+            snippets[0] = 'for ' + format_variable(words[0:index_in]) + ' in ' + format_variable(words[index_in+1:]) + ':'
         else:
             snippets[0] = 'for '
         return snippets
@@ -129,7 +133,11 @@ class PythonParser():
             snippets[0] = 'print(str(' + format_variable(words[1:]) + '))'
         else:
             pass
-            #  is that right up to the limitationsnippets[0] = 'print(str({0}))'.format(helper.convert_to_string(words))
+            snippets[0] = 'print('
+            snippets.append('quote')
+            snippets.append(format(helper.convert_to_string(words)))
+            snippets.append('quote')
+            snippets.append(')')
         return snippets
 
     def create_variable(self, words):
@@ -147,7 +155,10 @@ class PythonParser():
             elif words[index_type] == 'integer':
                 snippets[0] = format_variable(words[0:index_type]) + ' = ' + helper.verify_number(words[index_type+1])
             elif words[index_type] == 'string':
-                snippets[0] = format_variable(words[0:index_type]) + ' = "' + helper.convert_to_string(words[index_type+1:]) + '"'
+                snippets[0] = format_variable(words[0:index_type]) + ' = '
+                snippets.append('quote')
+                snippets.append(helper.convert_to_string(words[index_type+1:]))
+                snippets.append('quote')
             elif words[index_type] == 'equals':
                 snippets[0] = format_variable(words[0:index_type]) + ' = ' + self.process_conditional_math(helper.convert_to_string(words[index_type+1:]))
             else:
