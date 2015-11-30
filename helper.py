@@ -30,7 +30,12 @@ def text2int(textnum, numwords={}):
 
 
 def verify_number(num):
-    pass
+    try:
+        formated_num = num
+        return formated_num
+    except TypeError:
+        formated_num = text2int(num)
+        return formated_num
 
 
 def convert_to_string(words):
@@ -38,3 +43,10 @@ def convert_to_string(words):
     for w in words:
         formated += w + ' '
     return formated[:-1]
+
+
+def find_next_index(elements, list, previous_index=-1):
+    for i in range(previous_index+1, len(list)):
+        if list[i] in elements:
+            return i
+    return -1

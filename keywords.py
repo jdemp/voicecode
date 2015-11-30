@@ -3,14 +3,23 @@ __author__ = 'jdemp'
 
 class Keywords():
     conditional_keyword_list = ['less than or equal to', 'greater than or equal to',
-                                      'less than', 'greater than', 'equal to', 'and', 'or']
-    conditional_replacement_list = ['<=', '>=', '<', '>', '==', 'and', 'or']
+                                      'less than', 'greater than', 'equal to', 'and', 'or', 'equals']
+    conditional_replacement_list = ['<=', '>=', '<', '>', '==', 'and', 'or', '==']
+
+    math_keyword_list = ['add', 'plus', 'minus', 'subtract', 'times', 'divided', 'mod']
+
+    math_replacement_list = ['+', '+', '-', '-', '*', '/', '%']
+
+    symbols = ['<=', '>=', '<', '>', '==', 'and', 'or', '=', '+', '-', '*', '/', '%']
+
 
     def __init__(self, language):
         if language == 'python':
             self.setup_python()
         self.keyword_set = {'class', 'function', 'for', 'while', 'if', 'else', 'variable', 'equals', 'define'
-                            , 'print', 'return', 'math'}
+                            , 'print', 'return', 'math', 'elif', 'call'}
+        self.symbols = {'add': '+', 'plus': '+', 'minus':'-', 'subtract': '-', 'times': '*', 'divided': '/',
+                        'modulo':'%', 'equals': '='}
 
     def setup_python(self):
         pass
@@ -26,4 +35,7 @@ class Keywords():
         return positions
 
     def replace_math_keywords(self, dictation):
-        replaced_dictation = ""
+        snippet = dictation
+        for key in self.symbols.keys():
+            dictation.replace(key, self.symbols[key])
+        return snippet

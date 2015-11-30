@@ -20,7 +20,6 @@ def send_keystrokes(snippets):
         if s == 'nl':
             keystrokes = """osascript -e 'tell application "System Events" to key code 36'"""
         else:
-            send_keystrokes(s)
             keystrokes = """osascript -e 'tell application "System Events" to keystroke "{0}"'""".format(s)
         os.system(keystrokes)
 
@@ -33,11 +32,11 @@ class PythonHandler(socketserver.BaseRequestHandler):
         command = data.decode()
         print(command)
         snippets = parser.parse(command)
-        #send_keystrokes(snippets)
         send_test(snippets)
+        send_keystrokes(snippets)
 
 if __name__ == "__main__":
-    HOST, PORT = "localhost", 12000
+    HOST, PORT = "localhost", 12002
     while 1:
         lang = input("Enter the Language you will be programming in: ")
         if lang.lower() == 'python':
