@@ -1,0 +1,1 @@
+This is an on going to project to enable basic programming by voice. It extends Dragon Dictate for Mac. Currently can handle basic python. 
